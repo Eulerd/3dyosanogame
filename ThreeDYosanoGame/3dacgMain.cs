@@ -17,6 +17,7 @@ namespace _3DActionGame__
             byte[] keys = new byte[256];
             int mouse = 0;
             CuttingBoard CB = new CuttingBoard(-1100, 1000, 0, -1100, 1000, 1500, -1000, -510, 1500, -1000, -510, 0, DX.GetColor(0, 93, 153));
+            MyBullet mybullet = new MyBullet();
             /*
                         Target.x = 0;
             Target.y = 0;
@@ -41,7 +42,8 @@ namespace _3DActionGame__
             int ModelHandleHozyo = DX.MV1LoadModel("Hozyo.mv1");
             DX.MV1SetScale(ModelHandleHozyo, DX.VGet(10,10,10));
             DX.MV1SetScale(ModelHandleYosano, DX.VGet(10, 10, 10));
-            DX.MV1SetPosition(ModelHandleDice, DX.VGet(100, 100, -10000));
+            DX.VECTOR DiceRota = DX.VGet(100, 100, -10000);
+            DX.MV1SetPosition(ModelHandleDice, DiceRota);
             DX.MV1SetPosition(ModelHandleYosano, DX.VGet(0, 0, -10000));
             DX.MV1SetRotationXYZ(ModelHandleYosano, DX.VGet(0, (float)1.62, 0));
             double hozyoflame = 0;
@@ -50,7 +52,8 @@ namespace _3DActionGame__
                 mouse = DX.GetMouseInput();
                 DX.GetHitKeyStateAll(out keys[0]); //どのキーが入力されたか 
                 DX.ClearDrawScreen();
-                
+
+                mybullet.update();
 
                 if (keys[DX.KEY_INPUT_W] != 0) camera.Target.z++;
                 if (keys[DX.KEY_INPUT_S] != 0) camera.Target.z--;
@@ -58,13 +61,16 @@ namespace _3DActionGame__
                 if (keys[DX.KEY_INPUT_D] != 0) camera.Target.x++;
                 if (keys[DX.KEY_INPUT_SPACE] != 0) camera.Target.y++;
                 if (keys[DX.KEY_INPUT_LSHIFT] != 0) camera.Target.y--;
+                if (mouse == DX.MOUSE_INPUT_LEFT) mybullet.DrawHozyo(camera.Pos);
+                else mybullet.BFlag = true;
                 //if (keys[DX.KEY_INPUT_LCONTROL] != 0) camera.Target.z = 0;
 
                 //DX.SetMousePoint(320, 240);
 
                 camera.SetCamera();
                 DX.MV1DrawModel(ModelHandleDice);
-                DX.MV1DrawModel(ModelHandleHozyo);
+                DX.MV1SetRotationXYZ(ModelHandleDice, DX.VAdd(DiceRota, DX.VGet(0, 0 + (float)hozyoflame, 0)));
+                //DX.MV1DrawModel(ModelHandleHozyo);
                 DX.MV1DrawModel(ModelHandleYosano);
                 DX.MV1SetPosition(ModelHandleHozyo, DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70));
                 DX.MV1SetRotationXYZ(ModelHandleHozyo, DX.VGet((float)3.14, (float)1.57 + (float)hozyoflame, 0));

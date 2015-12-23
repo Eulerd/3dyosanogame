@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{EC0FBB05-22AC-4CBD-A99F-5679D2630AF3}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ThreeDYosanoGame</RootNamespace>
     <AssemblyName>ThreeDYosanoGame</AssemblyName>
@@ -32,8 +32,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="3dacgMain.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="CuttingBoard.cs" />
+    <Compile Include="DxDLL.cs" />
+    <Compile Include="MyBullet.cs" />
+    <Compile Include="Shot.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
