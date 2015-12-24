@@ -20,7 +20,11 @@ namespace _3DActionGame__
             for (i = 0; i < 10; i++)
             {
                 if (Time[i] > 200)
+                {
                     Flag[i] = false;
+                    Position[i] = DX.VGet(0, 0, 0);
+                }
+
                 if (Flag[i])
                     Time[i]++;
                 else Time[i] = 0;
