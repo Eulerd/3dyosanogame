@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DxLibDLL;
 
-namespace _3DActionGame__
+namespace ThreeDYosanoGame
 {
     class _3dacgMain
     {
@@ -17,6 +17,7 @@ namespace _3DActionGame__
             DX.DxLib_Init(); //初期化
             byte[] keys = new byte[256]; //キー入力用配列
             int mouse = 0;
+            DX.SetMousePoint(320, 240);
             //Z軸も使うよ
             DX.SetWriteZBuffer3D(1);
             DX.SetUseZBuffer3D(1);
@@ -28,7 +29,7 @@ namespace _3DActionGame__
             //クラス置いときますね
             CuttingBoard CB = new CuttingBoard();
             MyBullet mybullet = new MyBullet();
-            Camera camera = new Camera(0, 0, 0, 0, 0, -10200);
+            Camera camera = new Camera(0, 0, -10200, 0, 0, 0);
 
             /*
             Target.x = 0;
@@ -42,18 +43,24 @@ namespace _3DActionGame__
 
 
             float Far = 3000;
+            int GHandle;
+            int i;
+            GHandle = DX.LoadGraph("与謝野晶子.JPG");
+            string[] modelname = { "YsanoFlameZiki.mv1", "Dice6.mv1", "Hozyo.mv1", "Dice8.mv1", "Dice12.mv1" };
+            int[] ModelHandle = new int[modelname.Length];
+            for (i = 0; i < modelname.Length; i++)
+            {
+                ModelHandle[i] = DX.MV1LoadModel(modelname[i]);
+                DX.MV1SetScale(ModelHandle[i], DX.VGet(10, 10, 10));
+            }
 
-            int GraphHandleYosano =  DX.LoadGraph("与謝野晶子.JPG");
-            int ModelHandleYosano = DX.MV1LoadModel("YsanoFlameZiki.mv1");
-            int ModelHandleDice = DX.MV1LoadModel("Dice6x3.mv1");
-            int ModelHandleHozyo = DX.MV1LoadModel("Hozyo.mv1");
-            DX.MV1SetScale(ModelHandleHozyo, DX.VGet(10,10,10));
-            DX.MV1SetScale(ModelHandleYosano, DX.VGet(10, 10, 10));
-            DX.VECTOR DiceRota = DX.VGet(100, 100, -10000);
-            DX.MV1SetPosition(ModelHandleDice, DiceRota);
-            DX.MV1SetPosition(ModelHandleYosano, DX.VGet(0, 0, -10000));
-            DX.MV1SetRotationXYZ(ModelHandleYosano, DX.VGet(0, (float)1.62, 0));
-            float flame = 0; //何かと使う
+            DX.MV1SetPosition(ModelHandle[3], DX.VGet(0, -50, -10000));
+            DX.MV1SetPosition(ModelHandle[1], DX.VGet(50, -50, -10000));
+            DX.MV1SetPosition(ModelHandle[0], DX.VGet(-50, -50, -10000));
+            DX.MV1SetPosition(ModelHandle[4], DX.VGet(0, 0, -10000));
+            DX.MV1SetRotationXYZ(ModelHandle[0], DX.VGet(0, (float)1.62, 0));
+            double flame = 0;//何かと使う
+
             while (true)
             {
                 mouse = DX.GetMouseInput();
@@ -72,24 +79,22 @@ namespace _3DActionGame__
                 else mybullet.BFlag = true;
                 //if (keys[DX.KEY_INPUT_LCONTROL] != 0) camera.Target.z = 0;
 
-                //DX.SetMousePoint(320, 240);
-
+                //Class
+                Mouse.mousePos();
                 camera.SetCamera();
-                //サイコロ描写
-                DX.MV1DrawModel(ModelHandleDice);
-                DX.MV1SetRotationXYZ(ModelHandleDice, DX.VAdd(DiceRota, DX.VGet(0, 0 + flame, 0)));
 
-                //DX.MV1DrawModel(ModelHandleHozyo);
-                DX.MV1DrawModel(ModelHandleYosano); //与謝野描写
-                DX.MV1SetRotationXYZ(ModelHandleYosano, DX.VGet(0, flame, 0));
-                //北条描写用
-                DX.MV1SetPosition(ModelHandleHozyo, DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70));
-                DX.MV1SetRotationXYZ(ModelHandleHozyo, DX.VGet((float)3.14, (float)1.57 + flame, 0));
+                //3DModel描写
+                for (i = 0; i < modelname.Length; i++)
+                    DX.MV1DrawModel(ModelHandle[i]);
+
+                DX.MV1SetRotationXYZ(ModelHandle[1], DX.VGet((float)flame, (float)flame * 2, 0));
+
+                DX.MV1SetRotationXYZ(ModelHandle[3], DX.VGet((float)flame, (float)flame * 2, 0));
+                DX.MV1SetPosition(ModelHandle[2], DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70));
+                DX.MV1SetRotationXYZ(ModelHandle[2], DX.VGet((float)flame, (float)1.57 + (float)0, 0));
                 flame += 0.05f;
 
-                DX.DrawRota2Graph3D(0, 100, -10000, 0, 0, 0.5, 0.5, 0, GraphHandleYosano, 1);
-
-
+                //描写距離変更
                 if (keys[DX.KEY_INPUT_UP] != 0) Far += 50;
                 if (keys[DX.KEY_INPUT_DOWN] != 0) Far -= 50;
                 //XYZ軸を表示（テスト用）---------------------------------------------------
@@ -102,9 +107,9 @@ namespace _3DActionGame__
 
                 //DrawString'S--------------------------------------------------------------------
                 DX.DrawString(30, 60, Far.ToString(), DX.GetColor(255, 255, 255));
-                DX.DrawString(30, 100, "X: " + camera.CPx.ToString(), DX.GetColor(255, 255, 255));
-                DX.DrawString(30, 125, "Y: " + camera.CPy.ToString(), DX.GetColor(255, 255, 255));
-                DX.DrawString(30, 150, "flame: " + flame.ToString(), DX.GetColor(255, 255, 255));
+                DX.DrawString(30, 100, "X: " + camera.Pos.x.ToString(), DX.GetColor(255, 255, 255));
+                DX.DrawString(30, 125, "Y: " + camera.Pos.y.ToString(), DX.GetColor(255, 255, 255));
+                DX.DrawString(30, 150, "Z: " + camera.Pos.z.ToString(), DX.GetColor(255, 255, 255));
                 //--------------------------------------------------------------------------------
 
 

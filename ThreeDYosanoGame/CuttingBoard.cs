@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DxLibDLL;
 
-namespace _3DActionGame__
+namespace ThreeDYosanoGame
 {
     class CuttingBoard
     {

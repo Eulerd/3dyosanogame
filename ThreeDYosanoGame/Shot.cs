@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3DActionGame__
+namespace ThreeDYosanoGame
 {
     class Shot
     {

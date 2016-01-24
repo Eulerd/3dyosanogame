@@ -43,8 +43,12 @@
     <Compile Include="Camera.cs" />
     <Compile Include="CuttingBoard.cs" />
     <Compile Include="DxDLL.cs" />
+    <Compile Include="Mouse.cs" />
     <Compile Include="MyBullet.cs" />
     <Compile Include="Shot.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
