@@ -13,6 +13,7 @@ namespace ThreeDYosanoGame
         public DX.VECTOR Pos;
         public DX.VECTOR Target;
         public DX.VECTOR Move;
+        public float Roll = 0;
         public Camera(float posx, float posy, float posz, float tarx, float tary, float tarz)
         {
             Target.x = tarx;
@@ -24,13 +25,12 @@ namespace ThreeDYosanoGame
         }
         public void SetCamera()
         {
-            Pos.x = (float)((320 - Mouse.mousex) * 0.5) + Move.x;
-            Pos.y = (float)(-(240 - Mouse.mousey) * 0.5) + Move.y;
-            Pos.z += Move.z;
+            Pos.x = (float)((320 - Mouse.mousex) * 0.5) + Target.x;
+            Pos.y = (float)(-(240 - Mouse.mousey) * 0.5) + Target.y;
             //Target = Move;
             //Pos = DX.VAdd(Pos, Move);
             //Target = DX.VAdd(Target, Move);
-            DX.SetCameraPositionAndTarget_UpVecY(Pos, Target);
+            DX.SetCameraPositionAndTargetAndUpVec(Pos, Target, DX.VGet((float)Math.Sin(Roll),(float)Math.Cos(Roll),0));
 
 
             Move.z = 0;

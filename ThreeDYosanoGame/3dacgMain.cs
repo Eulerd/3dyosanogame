@@ -62,6 +62,7 @@ namespace ThreeDYosanoGame
             DX.MV1SetRotationXYZ(ModelHandle[0], DX.VGet(0, (float)1.62, 0));
             double flame = 0;//何かと使う
 
+            
             while (true)
             {
                 mouse = DX.GetMouseInput();
@@ -70,14 +71,42 @@ namespace ThreeDYosanoGame
 
                 mybullet.update();
                 //camera.Move = DX.VGet(0, 0, 0);
-                if (keys[DX.KEY_INPUT_W] != 0) camera.Move.z++;
-                if (keys[DX.KEY_INPUT_S] != 0) camera.Move.z--;
-                if (keys[DX.KEY_INPUT_A] != 0) camera.Move.x--;
-                if (keys[DX.KEY_INPUT_D] != 0) camera.Move.x++;
-                if (keys[DX.KEY_INPUT_SPACE] != 0) camera.Move.y++;
-                if (keys[DX.KEY_INPUT_LSHIFT] != 0) camera.Move.y--;
+                if (keys[DX.KEY_INPUT_W] != 0)
+                {
+                    camera.Pos.z++;
+                    camera.Target.z++;
+                }
+                if (keys[DX.KEY_INPUT_S] != 0)
+                {
+                    camera.Pos.z--;
+                    camera.Target.z--;
+                }
+                if (keys[DX.KEY_INPUT_A] != 0)
+                {
+                    camera.Pos.x--;
+                    camera.Target.x--;
+                }
+                if (keys[DX.KEY_INPUT_D] != 0)
+                {
+                    camera.Pos.x++;
+                    camera.Target.x++;
+                }
+                if (keys[DX.KEY_INPUT_SPACE] != 0)
+                {
+                    camera.Pos.y++;
+                    camera.Target.y++;
+                }
+                if (keys[DX.KEY_INPUT_LSHIFT] != 0)
+                {
+                    camera.Pos.y--;
+                    camera.Target.y--;
+                }
                 if (mouse == DX.MOUSE_INPUT_LEFT) mybullet.DrawHozyo(camera.Pos);
                 else mybullet.BFlag = true;
+
+                if (keys[DX.KEY_INPUT_LEFT] != 0) camera.Roll -= (float)Math.PI / 60;
+                if (keys[DX.KEY_INPUT_RIGHT] != 0) camera.Roll += (float)Math.PI / 60;
+
                 //if (keys[DX.KEY_INPUT_LCONTROL] != 0) camera.Target.z = 0;
 
                 //Class
@@ -96,9 +125,7 @@ namespace ThreeDYosanoGame
                 DX.MV1SetRotationXYZ(ModelHandle[2], DX.VGet((float)flame, (float)1.57 + (float)0, 0));
                 flame += 0.05f;
 
-                //描写距離変更
-                if (keys[DX.KEY_INPUT_UP] != 0) camera.Target.z++;
-                if (keys[DX.KEY_INPUT_DOWN] != 0) camera.Target.z--;
+
                 //XYZ軸を表示（テスト用）---------------------------------------------------
                 DX.DrawLine3D(DX.VGet(-100000, 0, 0), DX.VGet(100000, 0, 0), DX.GetColor(255, 255, 255));
                 DX.DrawLine3D(DX.VGet(0, -100000, 0), DX.VGet(0, 100000, 0),DX.GetColor(255,255,255));
