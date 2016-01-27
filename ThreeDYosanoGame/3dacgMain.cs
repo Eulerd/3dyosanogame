@@ -29,7 +29,7 @@ namespace ThreeDYosanoGame
             //クラス置いときますね
             CuttingBoard CB = new CuttingBoard();
             MyBullet mybullet = new MyBullet();
-            Camera camera = new Camera(0, 0, -10200, 0, 0, 0);
+            Camera camera = new Camera(0, 0, -10200, 0, 0, -10000);
 
             /*
             Target.x = 0;
@@ -54,6 +54,7 @@ namespace ThreeDYosanoGame
                 DX.MV1SetScale(ModelHandle[i], DX.VGet(10, 10, 10));
             }
 
+
             DX.MV1SetPosition(ModelHandle[3], DX.VGet(0, -50, -10000));
             DX.MV1SetPosition(ModelHandle[1], DX.VGet(50, -50, -10000));
             DX.MV1SetPosition(ModelHandle[0], DX.VGet(-50, -50, -10000));
@@ -68,13 +69,13 @@ namespace ThreeDYosanoGame
                 DX.ClearDrawScreen();
 
                 mybullet.update();
-
-                if (keys[DX.KEY_INPUT_W] != 0) camera.Target.z++;
-                if (keys[DX.KEY_INPUT_S] != 0) camera.Target.z--;
-                if (keys[DX.KEY_INPUT_A] != 0) camera.Target.x--;
-                if (keys[DX.KEY_INPUT_D] != 0) camera.Target.x++;
-                if (keys[DX.KEY_INPUT_SPACE] != 0) camera.Target.y++;
-                if (keys[DX.KEY_INPUT_LSHIFT] != 0) camera.Target.y--;
+                //camera.Move = DX.VGet(0, 0, 0);
+                if (keys[DX.KEY_INPUT_W] != 0) camera.Move.z++;
+                if (keys[DX.KEY_INPUT_S] != 0) camera.Move.z--;
+                if (keys[DX.KEY_INPUT_A] != 0) camera.Move.x--;
+                if (keys[DX.KEY_INPUT_D] != 0) camera.Move.x++;
+                if (keys[DX.KEY_INPUT_SPACE] != 0) camera.Move.y++;
+                if (keys[DX.KEY_INPUT_LSHIFT] != 0) camera.Move.y--;
                 if (mouse == DX.MOUSE_INPUT_LEFT) mybullet.DrawHozyo(camera.Pos);
                 else mybullet.BFlag = true;
                 //if (keys[DX.KEY_INPUT_LCONTROL] != 0) camera.Target.z = 0;
@@ -88,15 +89,16 @@ namespace ThreeDYosanoGame
                     DX.MV1DrawModel(ModelHandle[i]);
 
                 DX.MV1SetRotationXYZ(ModelHandle[1], DX.VGet((float)flame, (float)flame * 2, 0));
-
+                DX.MV1SetRotationXYZ(ModelHandle[4], DX.VGet((float)flame, (float)flame * 2, 0));
                 DX.MV1SetRotationXYZ(ModelHandle[3], DX.VGet((float)flame, (float)flame * 2, 0));
                 DX.MV1SetPosition(ModelHandle[2], DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70));
+                DX.DrawLine3D(camera.Pos, DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70), 0x000000);
                 DX.MV1SetRotationXYZ(ModelHandle[2], DX.VGet((float)flame, (float)1.57 + (float)0, 0));
                 flame += 0.05f;
 
                 //描写距離変更
-                if (keys[DX.KEY_INPUT_UP] != 0) Far += 50;
-                if (keys[DX.KEY_INPUT_DOWN] != 0) Far -= 50;
+                if (keys[DX.KEY_INPUT_UP] != 0) camera.Target.z++;
+                if (keys[DX.KEY_INPUT_DOWN] != 0) camera.Target.z--;
                 //XYZ軸を表示（テスト用）---------------------------------------------------
                 DX.DrawLine3D(DX.VGet(-100000, 0, 0), DX.VGet(100000, 0, 0), DX.GetColor(255, 255, 255));
                 DX.DrawLine3D(DX.VGet(0, -100000, 0), DX.VGet(0, 100000, 0),DX.GetColor(255,255,255));
@@ -107,9 +109,9 @@ namespace ThreeDYosanoGame
 
                 //DrawString'S--------------------------------------------------------------------
                 DX.DrawString(30, 60, Far.ToString(), DX.GetColor(255, 255, 255));
-                DX.DrawString(30, 100, "X: " + camera.Pos.x.ToString(), DX.GetColor(255, 255, 255));
-                DX.DrawString(30, 125, "Y: " + camera.Pos.y.ToString(), DX.GetColor(255, 255, 255));
-                DX.DrawString(30, 150, "Z: " + camera.Pos.z.ToString(), DX.GetColor(255, 255, 255));
+                DX.DrawString(30, 100, "PosX: " + camera.Pos.x.ToString(), DX.GetColor(255, 255, 255));
+                DX.DrawString(30, 125, "PosY: " + camera.Pos.y.ToString(), DX.GetColor(255, 255, 255));
+                DX.DrawString(30, 150, "PosZ: " + camera.Pos.z.ToString(), DX.GetColor(255, 255, 255));
                 //--------------------------------------------------------------------------------
 
 
