@@ -22,8 +22,8 @@ namespace ThreeDYosanoGame
             if (mousey > 480) mousey = 480;
             DX.SetMousePoint(mousex, mousey);
             //for Debug
-            DX.DrawString(550, 0,"MX:" + mousex.ToString(), DX.GetColor(255, 255, 255));
-            DX.DrawString(550, 25,"MY:" +  mousey.ToString(), DX.GetColor(255, 255, 255));
+            DX.DrawString(525, 0,"MX:" + mousex.ToString(), DX.GetColor(255, 255, 255));
+            DX.DrawString(525, 25,"MY:" +  mousey.ToString(), DX.GetColor(255, 255, 255));
             //
         }
     }

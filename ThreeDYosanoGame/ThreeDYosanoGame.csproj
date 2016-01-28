@@ -46,6 +46,7 @@
     <Compile Include="Mouse.cs" />
     <Compile Include="MyBullet.cs" />
     <Compile Include="Shot.cs" />
+    <Compile Include="TDModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

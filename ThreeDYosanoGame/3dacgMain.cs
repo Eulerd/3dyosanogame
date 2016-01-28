@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 using DxLibDLL;
 
 namespace ThreeDYosanoGame
@@ -25,11 +26,11 @@ namespace ThreeDYosanoGame
             DX.SetBackgroundColor(100, 100, 100);
             DX.SetDrawScreen(DX.DX_SCREEN_BACK);
             DX.ChangeLightTypeDir(DX.VGet(0, -500, 100)); //ｱｯｶﾘｰﾝの場所変更
-
             //クラス置いときますね
             CuttingBoard CB = new CuttingBoard();
             MyBullet mybullet = new MyBullet();
-            Camera camera = new Camera(0, 0, -10200, 0, 0, -10000);
+            Camera camera = new Camera(0, 0, -10200, 0, 0, -10100);
+            TDModel tdmodel = new TDModel();
 
             /*
             Target.x = 0;
@@ -46,20 +47,12 @@ namespace ThreeDYosanoGame
             int GHandle;
             int i;
             GHandle = DX.LoadGraph("与謝野晶子.JPG");
-            string[] modelname = { "YsanoFlameZiki.mv1", "Dice6.mv1", "Hozyo.mv1", "Dice8.mv1", "Dice12.mv1" };
-            int[] ModelHandle = new int[modelname.Length];
-            for (i = 0; i < modelname.Length; i++)
-            {
-                ModelHandle[i] = DX.MV1LoadModel(modelname[i]);
-                DX.MV1SetScale(ModelHandle[i], DX.VGet(10, 10, 10));
-            }
 
-
-            DX.MV1SetPosition(ModelHandle[3], DX.VGet(0, -50, -10000));
-            DX.MV1SetPosition(ModelHandle[1], DX.VGet(50, -50, -10000));
-            DX.MV1SetPosition(ModelHandle[0], DX.VGet(-50, -50, -10000));
-            DX.MV1SetPosition(ModelHandle[4], DX.VGet(0, 0, -10000));
-            DX.MV1SetRotationXYZ(ModelHandle[0], DX.VGet(0, (float)1.62, 0));
+            tdmodel.SetPos(3, 0, -50, -10000);
+            tdmodel.SetPos(1, 50, -50, -10000);
+            tdmodel.SetPos(0, -50, -50, -10000);
+            tdmodel.SetPos(4, 0, 0, -10000);
+            DX.MV1SetRotationXYZ(tdmodel.Handle[0], DX.VGet(0, (float)1.62, 0));
             double flame = 0;//何かと使う
 
             
@@ -68,6 +61,9 @@ namespace ThreeDYosanoGame
                 mouse = DX.GetMouseInput();
                 DX.GetHitKeyStateAll(out keys[0]); //どのキーが入力されたか 
                 DX.ClearDrawScreen();
+
+                DX.DrawCube3D(DX.VGet(-1000, -501, -11000), DX.VGet(1000, -500, 1500), DX.GetColor(50, 50, 50), DX.GetColor(255, 255, 255), 1); //地面
+
 
                 mybullet.update();
                 //camera.Move = DX.VGet(0, 0, 0);
@@ -101,7 +97,9 @@ namespace ThreeDYosanoGame
                     camera.Pos.y--;
                     camera.Target.y--;
                 }
-                if (mouse == DX.MOUSE_INPUT_LEFT) mybullet.DrawHozyo(camera.Pos);
+                if (keys[DX.KEY_INPUT_UP] != 0) camera.Target.z++;
+                if (keys[DX.KEY_INPUT_DOWN] != 0) camera.Target.z--;
+                if (mouse == DX.MOUSE_INPUT_LEFT) mybullet.DrawHozyo(camera.Target);
                 else mybullet.BFlag = true;
 
                 if (keys[DX.KEY_INPUT_LEFT] != 0) camera.Roll -= (float)Math.PI / 60;
@@ -114,15 +112,15 @@ namespace ThreeDYosanoGame
                 camera.SetCamera();
 
                 //3DModel描写
-                for (i = 0; i < modelname.Length; i++)
-                    DX.MV1DrawModel(ModelHandle[i]);
+                for (i = 0; i < tdmodel.modelname.Length; i++)
+                    DX.MV1DrawModel(tdmodel.Handle[i]);
 
-                DX.MV1SetRotationXYZ(ModelHandle[1], DX.VGet((float)flame, (float)flame * 2, 0));
-                DX.MV1SetRotationXYZ(ModelHandle[4], DX.VGet((float)flame, (float)flame * 2, 0));
-                DX.MV1SetRotationXYZ(ModelHandle[3], DX.VGet((float)flame, (float)flame * 2, 0));
-                DX.MV1SetPosition(ModelHandle[2], DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70));
+                DX.MV1SetRotationXYZ(tdmodel.Handle[1], DX.VGet((float)flame, (float)flame * 2, 0));
+                DX.MV1SetRotationXYZ(tdmodel.Handle[4], DX.VGet((float)flame, (float)flame * 2, 0));
+                DX.MV1SetRotationXYZ(tdmodel.Handle[3], DX.VGet((float)flame, (float)flame * 2, 0));
+                DX.MV1SetPosition(tdmodel.Handle[2], camera.Target);
                 DX.DrawLine3D(camera.Pos, DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70), 0x000000);
-                DX.MV1SetRotationXYZ(ModelHandle[2], DX.VGet((float)flame, (float)1.57 + (float)0, 0));
+                DX.MV1SetRotationXYZ(tdmodel.Handle[2], DX.VGet((float)flame, (float)1.57 + (float)0, 0));
                 flame += 0.05f;
 
 
@@ -132,7 +130,6 @@ namespace ThreeDYosanoGame
                 DX.DrawLine3D(DX.VGet(0, 0, -100000), DX.VGet(0, 0, 100000), DX.GetColor(255, 255, 255));
                 //--------------------------------------------------------------------------
 
-                DX.DrawCube3D(DX.VGet(-1000, -501, -11000), DX.VGet(1000, -500, 1500), DX.GetColor(50, 50, 50), DX.GetColor(255, 255, 255), 1); //地面
 
                 //DrawString'S--------------------------------------------------------------------
                 DX.DrawString(30, 60, Far.ToString(), DX.GetColor(255, 255, 255));
