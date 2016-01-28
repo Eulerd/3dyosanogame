@@ -114,7 +114,7 @@ namespace ThreeDYosanoGame
                 DX.MV1SetRotationXYZ(tdmodel.Handle[1], DX.VGet((float)flame, (float)flame * 2, 0));
                 DX.MV1SetRotationXYZ(tdmodel.Handle[4], DX.VGet((float)flame, (float)flame * 2, 0));
                 DX.MV1SetRotationXYZ(tdmodel.Handle[3], DX.VGet((float)flame, (float)flame * 2, 0));
-                DX.MV1SetPosition(tdmodel.Handle[2], camera.Target);
+                DX.MV1SetPosition(tdmodel.Handle[1], camera.Target);
                 DX.DrawLine3D(camera.Pos, DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70), 0x000000);
                 DX.MV1SetRotationXYZ(tdmodel.Handle[2], DX.VGet((float)flame, (float)1.57, 0));
                 flame += 0.05f;

@@ -28,7 +28,7 @@ namespace ThreeDYosanoGame
 
             for (i = 0;i < 10; i++)
             {
-                HozyoHandle[i] = DX.MV1DuplicateModel(Handle[1]);
+                HozyoHandle[i] = DX.MV1DuplicateModel(Handle[DX.GetRand(2) + 1]);
                 DX.MV1SetScale(HozyoHandle[i], DX.VGet(10, 10, 10));
                 //DX.MV1SetRotationXYZ(HozyoHandle[i], DX.VGet(0, (float)1.57, 0));
             }
