@@ -27,5 +27,12 @@ namespace ThreeDYosanoGame
         {
             DX.MV1SetPosition(Handle[Mnumber], DX.VGet(x, y, z));
         }
+
+
+        public void Draw()
+        {
+            for (i = 0; i < modelname.Length; i++)
+                DX.MV1DrawModel(Handle[i]);
+        }
     }
 }

@@ -110,10 +110,7 @@ namespace ThreeDYosanoGame
                 //Class
                 Mouse.mousePos();
                 camera.SetCamera();
-
-                //3DModel描写
-                for (i = 0; i < tdmodel.modelname.Length; i++)
-                    DX.MV1DrawModel(tdmodel.Handle[i]);
+                tdmodel.Draw();
 
                 DX.MV1SetRotationXYZ(tdmodel.Handle[1], DX.VGet((float)flame, (float)flame * 2, 0));
                 DX.MV1SetRotationXYZ(tdmodel.Handle[4], DX.VGet((float)flame, (float)flame * 2, 0));
