@@ -33,16 +33,6 @@ namespace ThreeDYosanoGame
             Camera camera = new Camera(0, 0, -10200, 0, 0, -10100);
             TDModel tdmodel = new TDModel();
 
-            /*
-            Target.x = 0;
-            Target.y = 0;
-            Target.z = 0;
-            Pos.x = 0;
-            Pos.y = 0;
-            Pos.z = -800;
-            */
-
-
 
             float Far = 3000;
             int GHandle;
@@ -54,6 +44,14 @@ namespace ThreeDYosanoGame
             tdmodel.SetPos(4, 0, 0, -10000);
             DX.MV1SetRotationXYZ(tdmodel.Handle[0], DX.VGet(0, (float)1.62, 0));
             double flame = 0;//何かと使う
+
+            /*
+            YsanoFlameZiki.mv1
+            Dice6.mv1
+            Dice8.mv1
+            Dice12.mv1
+            Hozyo.mv1   
+            */
 
             while (true)
             {
@@ -112,9 +110,9 @@ namespace ThreeDYosanoGame
                 tdmodel.Draw();
 
                 DX.MV1SetRotationXYZ(tdmodel.Handle[1], DX.VGet((float)flame, (float)flame * 2, 0));
-                DX.MV1SetRotationXYZ(tdmodel.Handle[4], DX.VGet((float)flame, (float)flame * 2, 0));
+                DX.MV1SetRotationXYZ(tdmodel.Handle[4], DX.VGet(0, (float)flame, 0));
                 DX.MV1SetRotationXYZ(tdmodel.Handle[3], DX.VGet((float)flame, (float)flame * 2, 0));
-                DX.MV1SetPosition(tdmodel.Handle[1], camera.Target);
+                DX.MV1SetPosition(tdmodel.Handle[4], camera.Target);
                 DX.DrawLine3D(camera.Pos, DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70), 0x000000);
                 DX.MV1SetRotationXYZ(tdmodel.Handle[2], DX.VGet((float)flame, (float)1.57, 0));
                 flame += 0.05f;
