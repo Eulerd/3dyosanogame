@@ -7,7 +7,7 @@ using DxLibDLL;
 
 namespace ThreeDYosanoGame
 {
-    class MyBullet
+    class MyBullet : TDModel
     {
         public DX.VECTOR[] Position = new DX.VECTOR[10];
         private int[] time = new int[10];
@@ -28,16 +28,20 @@ namespace ThreeDYosanoGame
                 if (Flag[i])
                     Time[i]++;
                 else Time[i] = 0;
+
             }
             for (i = 0; i < 10; i++)
             {
                 if (Flag[i] && Time[i] >= 0)
                 {
-                    Position[i].z += 5;
-                    DX.DrawSphere3D(Position[i], 10, 150, DX.GetColor(255, 0, 0), DX.GetColor(255, 255, 255), 1);
+                    Position[i].z += 10;
+                    DX.MV1SetPosition(HozyoHandle[i], Position[i]);
+                    DX.MV1DrawModel(HozyoHandle[i]);
+                    DX.MV1SetRotationXYZ(HozyoHandle[i], DX.VGet(Time[i] * (float)0.05, Time[i] * (float)0.08, 0));
+                    //DX.DrawSphere3D(Position[i], 10, 150, DX.GetColor(255, 0, 0), DX.GetColor(255, 255, 255), 1);
                 }
-            }
 
+            }
         }
         public void DrawHozyo(DX.VECTOR CPos)
         {

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using DxLibDLL;
+using System.Windows.Forms;
 
 namespace ThreeDYosanoGame
 {
@@ -45,7 +46,6 @@ namespace ThreeDYosanoGame
 
             float Far = 3000;
             int GHandle;
-            int i;
             GHandle = DX.LoadGraph("与謝野晶子.JPG");
 
             tdmodel.SetPos(3, 0, -50, -10000);
@@ -55,7 +55,6 @@ namespace ThreeDYosanoGame
             DX.MV1SetRotationXYZ(tdmodel.Handle[0], DX.VGet(0, (float)1.62, 0));
             double flame = 0;//何かと使う
 
-            
             while (true)
             {
                 mouse = DX.GetMouseInput();
@@ -117,7 +116,7 @@ namespace ThreeDYosanoGame
                 DX.MV1SetRotationXYZ(tdmodel.Handle[3], DX.VGet((float)flame, (float)flame * 2, 0));
                 DX.MV1SetPosition(tdmodel.Handle[2], camera.Target);
                 DX.DrawLine3D(camera.Pos, DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70), 0x000000);
-                DX.MV1SetRotationXYZ(tdmodel.Handle[2], DX.VGet((float)flame, (float)1.57 + (float)0, 0));
+                DX.MV1SetRotationXYZ(tdmodel.Handle[2], DX.VGet((float)flame, (float)1.57, 0));
                 flame += 0.05f;
 
 
