@@ -16,12 +16,13 @@ namespace ThreeDYosanoGame
         private int i;
         public TDModel()
         {
-            modelname = System.IO.File.ReadAllLines("ModelName.txt");
+            modelname = System.IO.File.ReadAllLines("../../text/ModelName.txt");
             HozyoHandle = new int[10];
 
             Handle = new int[modelname.Length];
             for (i = 0; i < modelname.Length; i++)
             {
+                modelname[i] = "../../model/" + modelname[i];
                 Handle[i] = DX.MV1LoadModel(modelname[i]);
                 DX.MV1SetScale(Handle[i], DX.VGet(10, 10, 10));
             }

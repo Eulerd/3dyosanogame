@@ -37,6 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="model\Dice12.mv1" />
+    <None Include="model\Dice6.mv1" />
+    <None Include="model\Dice6x3.mv1" />
+    <None Include="model\Dice8.mv1" />
+    <None Include="model\Hozyo.mv1" />
+    <None Include="model\YsanoFlameZiki.mv1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3dacgMain.cs" />
@@ -51,6 +57,18 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="model\12Dice.png" />
+    <Content Include="model\Dice.png" />
+    <Content Include="model\Hair05.jpg" />
+    <Content Include="model\octas.png" />
+    <Content Include="model\与謝野晶子-Hana.jpg" />
+    <Content Include="model\与謝野晶子-Head2.jpg" />
+    <Content Include="model\与謝野晶子-Kuti.jpg" />
+    <Content Include="model\与謝野晶子.JPG" />
+    <Content Include="model\北条丸.jpg" />
+    <Content Include="text\ModelName.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

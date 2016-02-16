@@ -25,23 +25,27 @@ namespace ThreeDYosanoGame
             DX.SetUseZBuffer3D(1);
 
             DX.SetBackgroundColor(100, 100, 100);
-            DX.SetDrawScreen(DX.DX_SCREEN_BACK);
+            DX.SetDrawScreen(DX.DX_SCREEN_BACK); //裏画面描写に設定
             DX.ChangeLightTypeDir(DX.VGet(0, -500, 100)); //ｱｯｶﾘｰﾝの場所変更
-            //クラス置いときますね
+            //クラス置いときますね----------
             CuttingBoard CB = new CuttingBoard();
             MyBullet mybullet = new MyBullet();
-            Camera camera = new Camera(0, 0, -10200, 0, 0, -10100);
+            Camera camera = new Camera();
+            camera.SetCameraPos(0, 0, -10200, 0, 0, -10100);
             TDModel tdmodel = new TDModel();
+            //-------------------------------
 
 
             float Far = 3000;
+
             int GHandle;
-            GHandle = DX.LoadGraph("与謝野晶子.JPG");
+            GHandle = DX.LoadGraph("与謝野晶子.JPG"); //与謝野晶子の画像読み込み
 
             tdmodel.SetPos(3, 0, -50, -10000);
             tdmodel.SetPos(1, 50, -50, -10000);
-            tdmodel.SetPos(0, -50, -50, -10000);
+            tdmodel.SetPos(2, -50, -50, -10000);
             tdmodel.SetPos(4, 0, 0, -10000);
+            tdmodel.SetPos(0, 0, 0, -10000);
             DX.MV1SetRotationXYZ(tdmodel.Handle[0], DX.VGet(0, (float)1.62, 0));
             double flame = 0;//何かと使う
 
@@ -63,6 +67,7 @@ namespace ThreeDYosanoGame
 
 
                 mybullet.update();
+
                 //camera.Move = DX.VGet(0, 0, 0);
                 if (keys[DX.KEY_INPUT_W] != 0)
                 {
@@ -96,7 +101,7 @@ namespace ThreeDYosanoGame
                 }
                 if (keys[DX.KEY_INPUT_UP] != 0) camera.Target.z++;
                 if (keys[DX.KEY_INPUT_DOWN] != 0) camera.Target.z--;
-                if (mouse == DX.MOUSE_INPUT_LEFT) mybullet.DrawHozyo(camera.Target);
+                if (mouse == DX.MOUSE_INPUT_LEFT) mybullet.DrawDice(camera.Target);
                 else mybullet.BFlag = true;
 
                 if (keys[DX.KEY_INPUT_LEFT] != 0) camera.Roll -= (float)Math.PI / 60;
@@ -109,14 +114,22 @@ namespace ThreeDYosanoGame
                 camera.SetCamera();
                 tdmodel.Draw();
 
+                //TDmodelの場所を指定
                 DX.MV1SetRotationXYZ(tdmodel.Handle[1], DX.VGet((float)flame, (float)flame * 2, 0));
                 DX.MV1SetRotationXYZ(tdmodel.Handle[4], DX.VGet(0, (float)flame, 0));
                 DX.MV1SetRotationXYZ(tdmodel.Handle[3], DX.VGet((float)flame, (float)flame * 2, 0));
                 DX.MV1SetPosition(tdmodel.Handle[4], camera.Target);
+                //XYZ軸を白線で表示
                 DX.DrawLine3D(camera.Pos, DX.VGet(camera.Pos.x, camera.Pos.y, camera.Pos.z + 70), 0x000000);
                 DX.MV1SetRotationXYZ(tdmodel.Handle[2], DX.VGet((float)flame, (float)1.57, 0));
                 flame += 0.05f;
 
+                for(int i = 0; i < 10; i++)
+                {
+                    mybullet.Range[i].x = camera.Target.x - camera.Pos.x;
+                    mybullet.Range[i].y = camera.Target.y - camera.Pos.y;
+                    mybullet.Range[i].z = camera.Target.z - camera.Pos.z;
+                }
 
                 //XYZ軸を表示（テスト用）---------------------------------------------------
                 DX.DrawLine3D(DX.VGet(-100000, 0, 0), DX.VGet(100000, 0, 0), DX.GetColor(255, 255, 255));
